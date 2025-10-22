@@ -63,20 +63,10 @@ public class RingBuffer<T> {
     }
 
     private boolean isEmpty() {
-        lock.lock();
-        try {
-            return count == 0;
-        } finally {
-            lock.unlock();
-        }
+        return count == 0;
     }
 
     private boolean isFull() {
-        lock.lock();
-        try {
-            return count == capacity;
-        } finally {
-            lock.unlock();
-        }
+        return count == capacity;
     }
 }
