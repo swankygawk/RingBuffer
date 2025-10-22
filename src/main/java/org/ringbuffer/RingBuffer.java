@@ -40,7 +40,7 @@ public class RingBuffer<T> {
             tail = (tail + 1) % capacity;
             count++;
 
-            notEmpty.signalAll();
+            notEmpty.signal();
         } finally {
             lock.unlock();
         }
@@ -58,7 +58,7 @@ public class RingBuffer<T> {
             head = (head + 1) % capacity;
             count--;
 
-            notFull.signalAll();
+            notFull.signal();
 
             return value;
         } finally {
