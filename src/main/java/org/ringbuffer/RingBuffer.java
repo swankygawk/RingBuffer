@@ -30,7 +30,7 @@ public class RingBuffer<T> {
             throw new NullPointerException("Null elements are not allowed");
         }
 
-        lock.lock();
+        lock.lockInterruptibly();
         try {
             while (isFull()) {
                 notFull.await();
@@ -40,14 +40,14 @@ public class RingBuffer<T> {
             tail = (tail + 1) % capacity;
             count++;
 
-            notEmpty.signal();
+            notEmpty.signalAll();
         } finally {
             lock.unlock();
         }
     }
 
     public T get() throws InterruptedException {
-        lock.lock();
+        lock.lockInterruptibly();
         try {
             while (isEmpty()) {
                 notEmpty.await();
@@ -58,7 +58,7 @@ public class RingBuffer<T> {
             head = (head + 1) % capacity;
             count--;
 
-            notFull.signal();
+            notFull.signalAll();
 
             return value;
         } finally {
