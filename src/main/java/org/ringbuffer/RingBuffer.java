@@ -26,6 +26,10 @@ public class RingBuffer<T> {
     }
 
     public void put(T value) throws InterruptedException {
+        if (value == null) {
+            throw new NullPointerException("Null elements are not allowed");
+        }
+
         lock.lock();
         try {
             while (isFull()) {
